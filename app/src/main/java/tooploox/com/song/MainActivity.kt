@@ -1,12 +1,8 @@
 package tooploox.com.song
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.tooploox.song.ApiService
@@ -23,10 +19,6 @@ import org.json.JSONException
 
 class MainActivity : AppCompatActivity()
 {
-    private val REQUEST_CODE_ASK_PERMISSIONS = 1
-    private val REQUIRED_SDK_PERMISSIONS = arrayOf(
-            Manifest.permission.INTERNET)
-
     private val localSongs = ArrayList<Song>()
     private val remoteSongs = ArrayList<Song>()
     private val songsList = ArrayList<Song>()
@@ -38,58 +30,7 @@ class MainActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        checkPermissions()
-    }
-
-    /**
-     * Checks the dynamically controlled permissions and requests missing permissions from end user.
-     */
-    private fun checkPermissions()
-    {
-        val missingPermissions = ArrayList<String>()
-
-        // Check all required dynamic permissions
-        for (permission in REQUIRED_SDK_PERMISSIONS)
-        {
-            val result = ContextCompat.checkSelfPermission(this, permission)
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                missingPermissions.add(permission)
-            }
-        }
-
-        if (!missingPermissions.isEmpty())
-        {
-            // Request all missing permissions
-            val permissions = missingPermissions.toTypedArray()
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_ASK_PERMISSIONS)
-        }
-        else
-        {
-            val grantResults = IntArray(REQUIRED_SDK_PERMISSIONS.size)
-            Arrays.fill(grantResults, PackageManager.PERMISSION_GRANTED)
-            onRequestPermissionsResult(REQUEST_CODE_ASK_PERMISSIONS, REQUIRED_SDK_PERMISSIONS, grantResults)
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray)
-    {
-        when (requestCode)
-        {
-            REQUEST_CODE_ASK_PERMISSIONS -> {
-                for (index in permissions.indices.reversed())
-                {
-                    if (grantResults[index] != PackageManager.PERMISSION_GRANTED)
-                    {
-                        // Exit the app if one permission is not granted
-                        Toast.makeText(this, "Required permission '" + permissions[index] + "' not granted, exiting", Toast.LENGTH_LONG).show()
-                        finish()
-                        return
-                    }
-                }
-                // All permissions were granted
-                initialize()
-            }
-        }
+        initialize()
     }
 
     private fun initialize()
