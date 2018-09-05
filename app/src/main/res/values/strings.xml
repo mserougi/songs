@@ -1,11 +1,10 @@
 <resources>
 
     <string name="app_name">Song</string>
-    <string name="title_local">Local</string>
-    <string name="title_remote">Remote</string>
-    <string name="title_both">Both</string>
+    <string name="local">Local</string>
+    <string name="remote">Remote</string>
 
-    <string name="load_remote_songs">Loading remote song list&#8230;</string>
+    <string name="loading_remote_songs">Loading remote song list&#8230;</string>
 
     <string name="error_load_remote_songs">Could not retrieve remote song list!</string>
 
